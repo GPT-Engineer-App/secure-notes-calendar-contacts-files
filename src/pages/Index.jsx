@@ -88,7 +88,7 @@ const Index = () => {
   if (!isAuthenticated) {
     return (
       <ChakraProvider>
-        <VStack spacing={4} align="center" justify="center" height="100vh">
+        <VStack spacing={8} align="center" justify="center" height="100vh">
           <Heading mb={6}>Password Protected Area</Heading>
           <FormControl>
             <InputGroup>
@@ -109,7 +109,12 @@ const Index = () => {
   return (
     <ChakraProvider>
       <Box p={4}>
-        <Tabs variant="enclosed">
+        {isAuthenticated && (
+          <Text fontSize="sm" position="absolute" top={4} right={4}>
+            Farhad Ivan Ali
+          </Text>
+        )}
+        <Tabs variant="enclosed" colorScheme="blue">
           <TabList onChange={(index) => handleTabChange(index)}>
             <Tab>Notizen</Tab>
             <Tab>Kalender</Tab>
@@ -171,7 +176,7 @@ const Index = () => {
           </TabPanels>
         </Tabs>
 
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal isOpen={isOpen} onClose={onClose} size="xl">
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>Neuer Eintrag</ModalHeader>
