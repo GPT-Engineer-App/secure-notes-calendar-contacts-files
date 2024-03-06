@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ChakraProvider, Box, VStack, Input, Button, Heading, Text, Tab, TabList, TabPanels, TabPanel, Tabs, FormControl, FormLabel, InputGroup, InputRightElement, IconButton, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
-import { FaLock, FaUnlock, FaPlus, FaCalendarAlt, FaAddressBook, FaFileAlt, FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaUnlock, FaPlus, FaCalendarAlt, FaAddressBook, FaFileAlt, FaEye, FaEyeSlash } from "react-icons/fa";
+import EntryDisplay from "../components/EntryDisplay";
 
 import { useRef } from "react";
 
@@ -125,18 +126,11 @@ const Index = () => {
           <TabPanels>
             <TabPanel>
               <Heading size="md">Notizen</Heading>
+              {}
+              <EntryDisplay type="notizen" data={noteText ? [noteText] : []} />
               <VStack align="stretch" mt={4}>
                 <Button onClick={onOpen} leftIcon={<FaPlus />}>
-                  Schulnotizen
-                </Button>
-                <Button onClick={onOpen} leftIcon={<FaPlus />}>
-                  Persönliche Notizen
-                </Button>
-                <Button onClick={onOpen} leftIcon={<FaPlus />}>
-                  Business Notizen
-                </Button>
-                <Button onClick={onOpen} leftIcon={<FaPlus />}>
-                  Andere Notizen
+                  Notiz hinzufügen
                 </Button>
               </VStack>
             </TabPanel>
