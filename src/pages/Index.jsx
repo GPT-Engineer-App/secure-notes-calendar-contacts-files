@@ -12,7 +12,7 @@ const Index = () => {
 
   const handleLogin = () => {
     // Basic password check, replace with real authentication logic
-    if (password === "password123") {
+    if (password === "123321Aa....") {
       setIsAuthenticated(true);
     }
   };
