@@ -31,19 +31,36 @@ const Index = () => {
   }, []);
 
   const saveData = () => {
+    let existingEntries;
     switch (activeTab) {
       case "notizen":
-        localStorage.setItem("notes", JSON.stringify(noteText));
+        existingEntries = JSON.parse(localStorage.getItem("notes")) || [];
+        existingEntries.push(noteText);
+        localStorage.setItem("notes", JSON.stringify(existingEntries));
+        setNoteText("");
         break;
       case "kalender":
-        localStorage.setItem("events", JSON.stringify({ name: eventName, date: eventDate, details: eventDetails }));
+        existingEntries = JSON.parse(localStorage.getItem("events")) || [];
+        existingEntries.push({ name: eventName, date: eventDate, details: eventDetails });
+        localStorage.setItem("events", JSON.stringify(existingEntries));
+        setEventName("");
+        setEventDate("");
+        setEventDetails("");
         break;
       case "kontakte":
-        localStorage.setItem("contacts", JSON.stringify({ name: contactName, email: contactEmail, phone: contactPhone }));
+        existingEntries = JSON.parse(localStorage.getItem("contacts")) || [];
+        existingEntries.push({ name: contactName, email: contactEmail, phone: contactPhone });
+        localStorage.setItem("contacts", JSON.stringify(existingEntries));
+        setContactName("");
+        setContactEmail("");
+        setContactPhone("");
         break;
       case "dateiablage":
+        existingEntries = JSON.parse(localStorage.getItem("files")) || [];
         if (file) {
-          localStorage.setItem("files", JSON.stringify(file.name));
+          existingEntries.push(file.name);
+          localStorage.setItem("files", JSON.stringify(existingEntries));
+          setFile(null);
         }
         break;
       default:
