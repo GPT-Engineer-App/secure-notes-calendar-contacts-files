@@ -3,7 +3,6 @@ import { ChakraProvider, Box, VStack, Input, Button, Heading, Text, Tab, TabList
 import { FaLock, FaUnlock, FaPlus, FaCalendarAlt, FaAddressBook, FaFileAlt, FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Index = () => {
-  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -12,7 +11,8 @@ const Index = () => {
   const toggleShowPassword = () => setShowPassword(!showPassword);
 
   const handleLogin = () => {
-    if (username === "farhadivanali" && password === "123321Aa....") {
+    // Basic password check, replace with real authentication logic
+    if (password === "123321Aa....") {
       setIsAuthenticated(true);
     }
   };
@@ -24,19 +24,7 @@ const Index = () => {
           <Heading mb={6}>Password Protected Area</Heading>
           <FormControl>
             <InputGroup>
-              <FormControl>
-                <FormLabel htmlFor="username">Benutzername</FormLabel>
-                <Input id="username" placeholder="Benutzername eingeben" value={username} onChange={(e) => setUsername(e.target.value)} />
-              </FormControl>
-              <FormControl>
-                <FormLabel htmlFor="password">Passwort</FormLabel>
-                <InputGroup>
-                  <Input id="password" type={showPassword ? "text" : "password"} placeholder="Passwort eingeben" value={password} onChange={(e) => setPassword(e.target.value)} />
-                  <InputRightElement>
-                    <IconButton icon={showPassword ? <FaEyeSlash /> : <FaEye />} onClick={toggleShowPassword} />
-                  </InputRightElement>
-                </InputGroup>
-              </FormControl>
+              <Input type={showPassword ? "text" : "password"} placeholder="Enter password" value={password} onChange={(e) => setPassword(e.target.value)} />
               <InputRightElement>
                 <IconButton icon={showPassword ? <FaEyeSlash /> : <FaEye />} onClick={toggleShowPassword} />
               </InputRightElement>
