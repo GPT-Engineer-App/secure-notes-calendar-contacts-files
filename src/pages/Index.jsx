@@ -1,10 +1,64 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ChakraProvider, Box, VStack, Input, Button, Heading, Text, Tab, TabList, TabPanels, TabPanel, Tabs, FormControl, FormLabel, InputGroup, InputRightElement, IconButton, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from "@chakra-ui/react";
 import { FaLock, FaUnlock, FaPlus, FaCalendarAlt, FaAddressBook, FaFileAlt, FaEye, FaEyeSlash } from "react-icons/fa";
 
 import { useRef } from "react";
 
 const Index = () => {
+  useEffect(() => {
+    const storedNotes = localStorage.getItem("notes");
+    const storedEvents = localStorage.getItem("events");
+    const storedContacts = localStorage.getItem("contacts");
+    const storedFiles = localStorage.getItem("files");
+
+    if (storedNotes) {
+      setNoteText(JSON.parse(storedNotes));
+    }
+    if (storedEvents) {
+      setEventName(JSON.parse(storedEvents).name);
+      setEventDate(JSON.parse(storedEvents).date);
+      setEventDetails(JSON.parse(storedEvents).details);
+    }
+    if (storedContacts) {
+      setContactName(JSON.parse(storedContacts).name);
+      setContactEmail(JSON.parse(storedContacts).email);
+      setContactPhone(JSON.parse(storedContacts).phone);
+    }
+    if (storedFiles) {
+      setFile(JSON.parse(storedFiles));
+    }
+  }, []);
+
+  const saveData = () => {
+    switch (activeTab) {
+      case "notizen":
+        localStorage.setItem("notes", JSON.stringify(noteText));
+        break;
+      case "kalender":
+        localStorage.setItem("events", JSON.stringify({ name: eventName, date: eventDate, details: eventDetails }));
+        break;
+      case "kontakte":
+        localStorage.setItem("contacts", JSON.stringify({ name: contactName, email: contactEmail, phone: contactPhone }));
+        break;
+      case "dateiablage":
+        if (file) {
+          localStorage.setItem("files", JSON.stringify(file.name));
+        }
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleClose = () => {
+    saveData();
+    onClose();
+  };
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    saveData();
+  };
   const [password, setPassword] = useState("");
   const [activeTab, setActiveTab] = useState("notizen");
   const [noteText, setNoteText] = useState("");
@@ -24,6 +78,7 @@ const Index = () => {
   const toggleShowPassword = () => setShowPassword(!showPassword);
 
   const handleLogin = () => {
+    saveData();
     // Basic password check, replace with real authentication logic
     if (password === "123321Aa....") {
       setIsAuthenticated(true);
@@ -55,7 +110,7 @@ const Index = () => {
     <ChakraProvider>
       <Box p={4}>
         <Tabs variant="enclosed">
-          <TabList>
+          <TabList onChange={(index) => handleTabChange(index)}>
             <Tab>Notizen</Tab>
             <Tab>Kalender</Tab>
             <Tab>Kontakte</Tab>
@@ -180,10 +235,12 @@ const Index = () => {
             </ModalBody>
 
             <ModalFooter>
-              <Button colorScheme="blue" mr={3} onClick={onClose}>
+              <Button colorScheme="blue" mr={3} onClick={handleClose}>
                 Schließen
               </Button>
-              <Button variant="ghost">Speichern</Button>
+              <Button variant="ghost" onClick={saveData}>
+                Speichern
+              </Button>
             </ModalFooter>
           </ModalContent>
         </Modal>
